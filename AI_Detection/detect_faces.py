@@ -1,8 +1,12 @@
 import mtcnn
 import matplotlib.pyplot as plt
 
+
+import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))
+
+
 # load image from file
-filename = "./Data/base.jpeg"
+filename = "../Data/base.jpeg"
 pixels = plt.imread(filename)
 print("Shape of image/array:", pixels.shape)
 imgplot = plt.imshow(pixels)
