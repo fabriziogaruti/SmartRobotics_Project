@@ -2,9 +2,9 @@ import mtcnn
 import matplotlib.pyplot as plt
 
 # load image from file
-filename = "glediston-bastos-ZtmmR9D_2tA-unsplash.jpg"
+filename = "./Data/base.jpeg"
 pixels = plt.imread(filename)
-print("Shape of image/array:",pixels.shape)
+print("Shape of image/array:", pixels.shape)
 imgplot = plt.imshow(pixels)
 plt.show()
 
