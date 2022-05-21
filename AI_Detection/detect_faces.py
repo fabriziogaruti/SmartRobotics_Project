@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 # import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))
 
 
-# draw an image with detected objects
+# draw an image with detected objects with MatplotLib
 def draw_facebox(filename, result_list):
     # load the image
     data = plt.imread(filename)
@@ -23,19 +23,34 @@ def draw_facebox(filename, result_list):
     plt.show()
 
 
+def get_face_bounding_box(detector, img):
+    faces = detector.detect_faces(img)
+    x, y, width, height = faces[0]['box']
+    print(x, y, width, height)
+    xmin = int(x - width / 2)
+    xmax = int(x + width / 2)
+    ymin = int(y - height / 2)
+    ymax = int(y + height / 2)
+    print(xmin, xmax, ymin, ymax)
+    return [xmin, xmax, ymin, ymax]
+
+
 if __name__ == "__main__":
     # load image from file
     filename = "../Data/base.jpeg"
-    pixels = plt.imread(filename)
-    print("Shape of image/array:", pixels.shape)
-    imgplot = plt.imshow(pixels)
+    img = plt.imread(filename)
+    print("Shape of image/array:", img.shape)
+    imgplot = plt.imshow(img)
     plt.show()
 
+    # Detector e get della bbox (xmin xmax ymin ymax)
     detector = mtcnn.MTCNN()
+    bbox = get_face_bounding_box(detector, img)
+
+    # NON UTILIZZARE SOTTO
     # detect faces in the image
-    faces = detector.detect_faces(pixels)
+    faces = detector.detect_faces(img)
     for face in faces:
         print(face)
-
     # display faces on the original image
     draw_facebox(filename, faces)
