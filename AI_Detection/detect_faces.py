@@ -26,12 +26,12 @@ def draw_facebox(filename, result_list):
 def get_face_bounding_box(detector, img):
     faces = detector.detect_faces(img)
     x, y, width, height = faces[0]['box']
-    print(x, y, width, height)
+    # print(x, y, width, height)
     xmin = int(x - width / 2)
     xmax = int(x + width / 2)
     ymin = int(y - height / 2)
     ymax = int(y + height / 2)
-    print(xmin, xmax, ymin, ymax)
+    print("Vertici:", xmin, xmax, ymin, ymax)
     return [xmin, xmax, ymin, ymax]
 
 
