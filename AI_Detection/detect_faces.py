@@ -1,25 +1,9 @@
 import mtcnn
 import matplotlib.pyplot as plt
+# import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))
 
 
-import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))
-
-
-# load image from file
-filename = "../Data/base.jpeg"
-pixels = plt.imread(filename)
-print("Shape of image/array:", pixels.shape)
-imgplot = plt.imshow(pixels)
-plt.show()
-
-detector = mtcnn.MTCNN()
-# detect faces in the image
-faces = detector.detect_faces(pixels)
-for face in faces:
-    print(face)
-
-
-# draw an image with detected objects
+# draw an image with detected objects with MatplotLib
 def draw_facebox(filename, result_list):
     # load the image
     data = plt.imread(filename)
@@ -39,14 +23,34 @@ def draw_facebox(filename, result_list):
     plt.show()
 
 
-# filename = 'test1.jpg' # filename is defined above, otherwise uncomment
-# load image from file
-# pixels = plt.imread(filename) # defined above, otherwise uncomment
-# detector is defined above, otherwise uncomment
-# detector = mtcnn.MTCNN()
-# detect faces in the image
-faces = detector.detect_faces(pixels)
-# display faces on the original image
-draw_facebox(filename, faces)
+def get_face_bounding_box(detector, img):
+    faces = detector.detect_faces(img)
+    x, y, width, height = faces[0]['box']
+    print(x, y, width, height)
+    xmin = int(x - width / 2)
+    xmax = int(x + width / 2)
+    ymin = int(y - height / 2)
+    ymax = int(y + height / 2)
+    print(xmin, xmax, ymin, ymax)
+    return [xmin, xmax, ymin, ymax]
 
 
+if __name__ == "__main__":
+    # load image from file
+    filename = "../Data/base.jpeg"
+    img = plt.imread(filename)
+    print("Shape of image/array:", img.shape)
+    imgplot = plt.imshow(img)
+    plt.show()
+
+    # Detector e get della bbox (xmin xmax ymin ymax)
+    detector = mtcnn.MTCNN()
+    bbox = get_face_bounding_box(detector, img)
+
+    # NON UTILIZZARE SOTTO
+    # detect faces in the image
+    faces = detector.detect_faces(img)
+    for face in faces:
+        print(face)
+    # display faces on the original image
+    draw_facebox(filename, faces)
