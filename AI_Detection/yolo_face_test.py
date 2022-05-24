@@ -46,15 +46,18 @@ print("\nDelta x left:  {:.0f}".format(abs(center[0] - xyxy[0])))
 print("Delta x right:   {:.0f}".format(abs(center[0] - xyxy[2])))
 print("Delta y up:      {:.0f}".format(abs(center[1] - xyxy[1])))
 
-print("\nDelta x left:  {:.3f}".format(abs(center[0] - xyxy[0])/(xyxy_face["xmin"] - width_testa)))
-print("Delta x right:   {:.3f}".format(abs(center[0] - xyxy[2])/(xyxy_face["xmax"] + width_testa)))
-print("Delta y up:      {:.3f}".format(abs(center[1] - xyxy[1])/xyxy_face["ymin"]))
+print("\nDelta x left:  {:.3f}".format(abs(center[0] - xyxy[0]) / xyxy_face["xmin"]))
+print("Delta x right:   {:.3f}".format(abs(center[0] - xyxy[2]) / xyxy_face["xmax"]))
+print("Delta y up:      {:.3f}".format(abs(center[1] - xyxy[1]) / xyxy_face["ymin"]))
 
-# PIXELS
+# PIXELS left, right, up
 # Base : 239 237 132
-# Up : 291 331
-# Right : 285 783
-# Left : 844 320
+# Left : 844 320 125
+# Right : 285 783 132
+# Up : 291 331 499
 
 # PIXELS / WIDTH, HEIGHT
-# Base : 0.206 0.204 0.241
+# Base : 0.383 0.324 0.310
+# Left : 1.024 0.342 0.383
+# Right : 0.896 1.830 0.348
+# Up : 0.425 0.414 0.884
