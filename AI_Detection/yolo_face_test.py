@@ -37,18 +37,18 @@ xyxy = xyxy.iloc[0].tolist()
 
 img = plt.imread(img_name)
 xyxy_face = get_face_bounding_box(detector, img)
-center = [int((xyxy_face[0] + xyxy_face[2])/2), int((xyxy_face[1] + xyxy_face[3])/2)]
+center = [int((xyxy_face["xmin"] + xyxy_face["xmax"])/2), int((xyxy_face["ymin"] + xyxy_face["ymax"])/2)]
 print("\nFace center:", center)
 print("Bbox body:", xyxy)
-width_testa = abs(xyxy_face[0] - xyxy_face[2])
+width_testa = abs(xyxy_face["xmin"] - xyxy_face["xmax"])
 
 print("\nDelta x left:  {:.0f}".format(abs(center[0] - xyxy[0])))
 print("Delta x right:   {:.0f}".format(abs(center[0] - xyxy[2])))
 print("Delta y up:      {:.0f}".format(abs(center[1] - xyxy[1])))
 
-print("\nDelta x left:  {:.3f}".format(abs(center[0] - xyxy[0])/(xyxy_face[0] - width_testa)))
-print("Delta x right:   {:.3f}".format(abs(center[0] - xyxy[2])/(xyxy_face[2] + width_testa)))
-print("Delta y up:      {:.3f}".format(abs(center[1] - xyxy[1])/xyxy_face[1]))
+print("\nDelta x left:  {:.3f}".format(abs(center[0] - xyxy[0])/(xyxy_face["xmin"] - width_testa)))
+print("Delta x right:   {:.3f}".format(abs(center[0] - xyxy[2])/(xyxy_face["xmax"] + width_testa)))
+print("Delta y up:      {:.3f}".format(abs(center[1] - xyxy[1])/xyxy_face["ymin"]))
 
 # PIXELS
 # Base : 239 237 132
