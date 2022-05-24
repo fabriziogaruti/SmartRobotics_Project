@@ -27,10 +27,15 @@ def get_face_bounding_box(detector, img):
     faces = detector.detect_faces(img)
     x, y, width, height = faces[0]['box']
     # print(x, y, width, height)
-    xmin = int(x - width / 2)
+    '''xmin = int(x - width / 2)
     xmax = int(x + width / 2)
     ymin = int(y - height / 2)
     ymax = int(y + height / 2)
+    '''
+    xmin = int(x)
+    xmax = int(x + width)
+    ymin = int(y +height)
+    ymax = int(y)
     print("Vertici:", xmin, xmax, ymin, ymax)
     return [xmin, xmax, ymin, ymax]
 

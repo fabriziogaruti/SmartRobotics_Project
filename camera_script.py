@@ -1,10 +1,26 @@
 import cv2
 import torch
 import time
+from AI_Detection.detect_faces import get_face_bounding_box
+import mtcnn
 
-def camera_script(yooloModel):
+def classify_position(bbox_body, bbox_face, frame):
+    #Case 1: hands on the top
+    face_w = bbox_face[1] - bbox_face[0]
+    face_h = bbox_face[2] - bbox_face[3]
+    body_w = bbox_body[1] - bbox_body[0]
+    body_h = bbox_body[2] - bbox_body[3]
+    print("face_h", face_h)
+    print("bbox_body_ymax",bbox_body[3])
+    print("bbox_face_ymax", bbox_face[3])
+    if bbox_body[3] < bbox_face[3] - face_h:
+        print("mani alzate")
+        cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
+        cv2.putText(frame, "mani alzate", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+
+def camera_script(yooloModel, face_detector):
     # Opens the inbuilt camera of laptop to capture video.
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     i = 0
 
     while (cap.isOpened()):
@@ -18,6 +34,10 @@ def camera_script(yooloModel):
             person = person.iloc[0]
             # print(person['xmin'])
             cv2.rectangle(frame, (int(person['xmin']), int(person['ymax'])), (int(person['xmax']), int(person['ymin'])), (0, 255, 0), 3)
+            bbox = get_face_bounding_box(face_detector, frame)
+            cv2.rectangle(frame, (int(bbox[0]), int(bbox[3])), (int(bbox[1]), int(bbox[2])),
+                          (255, 0, 0), 3)
+            classify_position([person['xmin'],person['xmax'],person['ymin'],person['ymax']], bbox, frame)
             #grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             cv2.imshow('Frame', frame)
             cv2.waitKey(1)
@@ -41,4 +61,5 @@ def camera_script(yooloModel):
 
 if __name__ == "__main__":
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
-    camera_script(model)
+    face_detector = mtcnn.MTCNN()
+    camera_script(model, face_detector)
