@@ -10,19 +10,21 @@ def classify_position(bbox_body, bbox_face, frame):
     face_h = abs(bbox_face["ymax"] - bbox_face["ymin"])
     body_w = abs(bbox_body["xmax"] - bbox_body["xmin"])
     body_h = abs(bbox_body["ymax"] - bbox_body["ymin"])
-    print("face_h", face_h)
-    print("bbox_body_ymax",bbox_body[3])
-    print("bbox_face_ymax", bbox_face[3])
-    #larghezza_standard corpo
-    body_ref_w = 3 * face_w
-    if bbox_body[3] < bbox_face[3] - face_h:
+    center = [int((bbox_face["xmin"] + bbox_face["xmax"]) / 2), int((bbox_face["ymin"] + bbox_face["ymax"]) / 2)]
+    body_delta_left = abs(center[0] - bbox_body["xmin"])
+    body_delta_right = abs(center[0] - bbox_body["xmax"])
+    body_delta_up = abs(center[1] - bbox_body["ymin"])
+
+    #Hands High
+    #if (center[1] - bbox_body["ymin"])/(bbox_face["ymin"]) > (0.310 -0.884)/2:
+    if abs(center[1] - bbox_body["ymin"]) > abs(bbox_face["ymin"] - 2*face_h):
         print("mani alzate")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "mani alzate", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
 def camera_script(yooloModel, face_detector):
     # Opens the inbuilt camera of laptop to capture video.
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     i = 0
 
     while (cap.isOpened()):
