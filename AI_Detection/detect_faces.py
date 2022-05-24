@@ -27,17 +27,13 @@ def get_face_bounding_box(detector, img):
     faces = detector.detect_faces(img)
     x, y, width, height = faces[0]['box']
     # print(x, y, width, height)
-    '''xmin = int(x - width / 2)
-    xmax = int(x + width / 2)
-    ymin = int(y - height / 2)
-    ymax = int(y + height / 2)
-    '''
-    xmin = int(x)
-    xmax = int(x + width)
-    ymin = int(y +height)
-    ymax = int(y)
+    xmin = x
+    xmax = x + width
+    ymin = y
+    ymax = y + height
     print("Vertici:", xmin, xmax, ymin, ymax)
-    return [xmin, xmax, ymin, ymax]
+    print("Vertici:", x, y, width, height)
+    return {"xmin": xmin, "ymin": ymin, "xmax": xmax, "ymax": ymax}
 
 
 if __name__ == "__main__":
@@ -48,7 +44,7 @@ if __name__ == "__main__":
     imgplot = plt.imshow(img)
     plt.show()
 
-    # Detector e get della bbox (xmin xmax ymin ymax)
+    # Detector e get della bbox (xmin ymin xmax ymax)
     detector = mtcnn.MTCNN()
     bbox = get_face_bounding_box(detector, img)
 

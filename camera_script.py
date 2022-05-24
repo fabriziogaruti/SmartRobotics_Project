@@ -20,7 +20,7 @@ def classify_position(bbox_body, bbox_face, frame):
 
 def camera_script(yooloModel, face_detector):
     # Opens the inbuilt camera of laptop to capture video.
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     i = 0
 
     while (cap.isOpened()):
@@ -33,9 +33,9 @@ def camera_script(yooloModel, face_detector):
         if not person.empty:
             person = person.iloc[0]
             # print(person['xmin'])
-            cv2.rectangle(frame, (int(person['xmin']), int(person['ymax'])), (int(person['xmax']), int(person['ymin'])), (0, 255, 0), 3)
+            cv2.rectangle(frame, (int(person['xmin']), int(person['ymin'])), (int(person['xmax']), int(person['ymax'])), (0, 255, 0), 3)
             bbox = get_face_bounding_box(face_detector, frame)
-            cv2.rectangle(frame, (int(bbox[0]), int(bbox[3])), (int(bbox[1]), int(bbox[2])),
+            cv2.rectangle(frame, (int(bbox['xmin']), int(bbox['ymin'])), (int(bbox['xmax']), int(bbox['ymax'])),
                           (255, 0, 0), 3)
             classify_position([person['xmin'],person['xmax'],person['ymin'],person['ymax']], bbox, frame)
             #grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
