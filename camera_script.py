@@ -6,13 +6,15 @@ import mtcnn
 
 def classify_position(bbox_body, bbox_face, frame):
     #Case 1: hands on the top
-    face_w = bbox_face[1] - bbox_face[0]
-    face_h = bbox_face[2] - bbox_face[3]
-    body_w = bbox_body[1] - bbox_body[0]
-    body_h = bbox_body[2] - bbox_body[3]
+    face_w = abs(bbox_face["xmax"] - bbox_face["xmin"])
+    face_h = abs(bbox_face["ymax"] - bbox_face["ymin"])
+    body_w = abs(bbox_body["xmax"] - bbox_body["xmin"])
+    body_h = abs(bbox_body["ymax"] - bbox_body["ymin"])
     print("face_h", face_h)
     print("bbox_body_ymax",bbox_body[3])
     print("bbox_face_ymax", bbox_face[3])
+    #larghezza_standard corpo
+    body_ref_w = 3 * face_w
     if bbox_body[3] < bbox_face[3] - face_h:
         print("mani alzate")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
@@ -37,7 +39,7 @@ def camera_script(yooloModel, face_detector):
             bbox = get_face_bounding_box(face_detector, frame)
             cv2.rectangle(frame, (int(bbox['xmin']), int(bbox['ymin'])), (int(bbox['xmax']), int(bbox['ymax'])),
                           (255, 0, 0), 3)
-            classify_position([person['xmin'],person['xmax'],person['ymin'],person['ymax']], bbox, frame)
+            classify_position(person, bbox, frame)
             #grayFrame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             cv2.imshow('Frame', frame)
             cv2.waitKey(1)
