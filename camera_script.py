@@ -22,16 +22,21 @@ def classify_position(bbox_body, bbox_face, frame):
         cv2.putText(frame, "Hands Up", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
     #Hands Left
-    if bbox_body["xmin"] < bbox_face["xmin"] -3*face_w:
+    elif bbox_body["xmin"] < bbox_face["xmin"] - 3 * face_w:
         print("Hands Left")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "Hands Left", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
     # Hands Right
-    if bbox_body["xmax"] > bbox_face["xmax"] + 3 * face_w:
+    elif bbox_body["xmax"] > bbox_face["xmax"] + 3 * face_w:
         print("Hands Right")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "Hands Right", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+
+    else:
+        print("Hands Normal")
+        cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
+        cv2.putText(frame, "Hands Normal", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
 
 
 def camera_script(yooloModel, face_detector):
