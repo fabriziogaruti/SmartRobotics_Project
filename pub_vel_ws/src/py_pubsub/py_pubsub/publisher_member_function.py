@@ -16,23 +16,29 @@ import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import String
-
+from geometry_msgs.msg import Twist
 
 class MinimalPublisher(Node):
 
     def __init__(self):
         super().__init__('minimal_publisher')
-        self.publisher_ = self.create_publisher(String, 'cmd_vel', 10)
+        self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
         timer_period = 0.5  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
 
     def timer_callback(self):
-        msg = String()
-        msg.data = 'Hello World: %d' % self.i
-        self.publisher_.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
-        self.i += 1
+        #msg = String()
+        #msg.data = 'Hello World: %d' % self.i
+        #self.publisher_.publish(msg)
+        #self.get_logger().info('Publishing: "%s"' % msg.data)
+        #self.i += 1
+        cmd_vel_array = [0.01,0.02,0.03,0.04,0.05]
+        vel = Twist()
+        for i in range(len(cmd_vel_array)):
+            vel.linear.x = cmd_vel_array[i]
+            print("Publishing velocity" + str(cmd_vel_array[i]))
+            self.publisher_.publish(vel)
 
 
 def main(args=None):
