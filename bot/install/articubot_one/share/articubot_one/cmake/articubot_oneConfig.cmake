@@ -1,0 +1,1 @@
+/home/davide/Scrivania/Università/Magistrale/smart robotics/project/articubot_one/build/articubot_one/ament_cmake_core/articubot_oneConfig.cmake
