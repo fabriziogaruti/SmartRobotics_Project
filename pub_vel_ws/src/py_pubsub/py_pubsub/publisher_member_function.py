@@ -35,10 +35,18 @@ class MinimalPublisher(Node):
         #self.i += 1
         cmd_vel_array = [0.01,0.02,0.03,0.04,0.05]
         vel = Twist()
-        for i in range(len(cmd_vel_array)):
+        '''for i in range(len(cmd_vel_array)):
             vel.linear.x = cmd_vel_array[i]
             print("Publishing velocity" + str(cmd_vel_array[i]))
-            self.publisher_.publish(vel)
+            self.publisher_.publish(vel)'''
+
+        with open("file.txt", "r") as f:
+            value = f.read()  # perform file operations
+            print("Read file", value)
+
+        vel.linear.x = cmd_vel_array[3]
+        print("Publishing velocity" + str(cmd_vel_array[3]))
+        self.publisher_.publish(vel)
 
 
 def main(args=None):

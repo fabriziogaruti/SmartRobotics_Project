@@ -4,7 +4,13 @@ import time
 from AI_Detection.detect_faces import get_face_bounding_box
 import mtcnn
 
+stato=0
+
+
 def classify_position(bbox_body, bbox_face, frame):
+    global stato
+    filename = "pub_vel_ws/file.txt"
+
     #Case 1: hands on the top
     face_w = abs(bbox_face["xmax"] - bbox_face["xmin"])
     face_h = abs(bbox_face["ymax"] - bbox_face["ymin"])
@@ -20,28 +26,44 @@ def classify_position(bbox_body, bbox_face, frame):
         print("Hands Up")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "Hands Up", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+        if stato != 1:
+            with open(filename, "w") as f:
+                f.write("1")
+            stato = 1
 
     #Hands Left
     elif bbox_body["xmin"] < bbox_face["xmin"] - 3 * face_w:
         print("Hands Left")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "Hands Left", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+        if stato != 2:
+            with open(filename, "w") as f:
+                f.write("2")
+            stato = 2
 
     # Hands Right
     elif bbox_body["xmax"] > bbox_face["xmax"] + 3 * face_w:
         print("Hands Right")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "Hands Right", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+        if stato != 3:
+            with open(filename, "w") as f:
+                f.write("3")
+            stato = 3
 
     else:
         print("Hands Normal")
         cv2.rectangle(frame, (10, 2), (100, 20), (255, 255, 255), -1)
         cv2.putText(frame, "Hands Normal", (15, 15), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0))
+        if stato != 0:
+            with open(filename, "w") as f:
+                f.write("0")
+            stato = 0
 
 
 def camera_script(yooloModel, face_detector):
     # Opens the inbuilt camera of laptop to capture video.
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     i = 0
 
     while (cap.isOpened()):
