@@ -11,6 +11,7 @@ pip install ipython
 pip install psutil
 
 
+
 matplotlib==3.5.2
 mtcnn==0.1.1
 pandas==1.4.2
