@@ -3,7 +3,9 @@ import torch
 import time
 from AI_Detection.detect_faces import get_face_bounding_box
 import mtcnn
-
+import paho.mqtt.client as mqtt
+from datetime import datetime
+from publisher_mqtt import on_connect, on_message
 stato=0
 
 
@@ -29,6 +31,7 @@ def classify_position(bbox_body, bbox_face, frame):
         if stato != 1:
             with open(filename, "w") as f:
                 f.write("1")
+            client.publish(TOPIC, 1)
             stato = 1
 
     #Hands Left
@@ -39,6 +42,7 @@ def classify_position(bbox_body, bbox_face, frame):
         if stato != 2:
             with open(filename, "w") as f:
                 f.write("2")
+            client.publish(TOPIC, 2)
             stato = 2
 
     # Hands Right
@@ -49,6 +53,7 @@ def classify_position(bbox_body, bbox_face, frame):
         if stato != 3:
             with open(filename, "w") as f:
                 f.write("3")
+            client.publish(TOPIC, 3)
             stato = 3
 
     else:
@@ -59,6 +64,7 @@ def classify_position(bbox_body, bbox_face, frame):
             with open(filename, "w") as f:
                 f.write("0")
             stato = 0
+            client.publish(TOPIC, stato)
 
 
 def camera_script(yooloModel, face_detector):
@@ -107,4 +113,18 @@ def camera_script(yooloModel, face_detector):
 if __name__ == "__main__":
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
     face_detector = mtcnn.MTCNN()
+
+
+    BROKER = 'test.mosquitto.org'
+    TOPIC = 'bot/fsm-state'
+    client = mqtt.Client(clean_session=True)
+
+    # events --> callback association
+    client.on_connect = on_connect
+    client.on_message = on_message
+
+    # client --> broker connection
+
+    client.connect(BROKER)
+    client.loop_start()
     camera_script(model, face_detector)

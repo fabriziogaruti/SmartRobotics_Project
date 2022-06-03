@@ -1,7 +1,7 @@
 import mtcnn
 import matplotlib.pyplot as plt
 # import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))
-
+import time
 
 # draw an image with detected objects with MatplotLib
 def draw_facebox(filename, result_list):
@@ -37,21 +37,28 @@ def get_face_bounding_box(detector, img):
         return {"xmin": xmin, "ymin": ymin, "xmax": xmax, "ymax": ymax}
     return None
 
+
 if __name__ == "__main__":
     # load image from file
     filename = "../Data/base.jpeg"
     img = plt.imread(filename)
     print("Shape of image/array:", img.shape)
-    imgplot = plt.imshow(img)
-    plt.show()
+    # imgplot = plt.imshow(img)
+    # plt.show()
 
     # Detector e get della bbox (xmin ymin xmax ymax)
     detector = mtcnn.MTCNN()
-    bbox = get_face_bounding_box(detector, img)
 
-    # NON UTILIZZARE SOTTO
+    # Prima possibility
+    # bbox = get_face_bounding_box(detector, img)
+
+    # Second possibility
     # detect faces in the image
+    t1 = time.time()
     faces = detector.detect_faces(img)
+    t2 = time.time()
+    print("Tempo impiegato: {:.3f}".format(t2-t1))
+
     for face in faces:
         print(face)
     # display faces on the original image
