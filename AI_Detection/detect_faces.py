@@ -25,16 +25,17 @@ def draw_facebox(filename, result_list):
 
 def get_face_bounding_box(detector, img):
     faces = detector.detect_faces(img)
-    x, y, width, height = faces[0]['box']
-    # print(x, y, width, height)
-    xmin = x
-    xmax = x + width
-    ymin = y
-    ymax = y + height
-    print("Vertici:", xmin, xmax, ymin, ymax)
-    print("Vertici:", x, y, width, height)
-    return {"xmin": xmin, "ymin": ymin, "xmax": xmax, "ymax": ymax}
-
+    if len(faces) != 0:
+        x, y, width, height = faces[0]['box']
+        # print(x, y, width, height)
+        xmin = x
+        xmax = x + width
+        ymin = y
+        ymax = y + height
+        print("Vertici:", xmin, xmax, ymin, ymax)
+        print("Vertici:", x, y, width, height)
+        return {"xmin": xmin, "ymin": ymin, "xmax": xmax, "ymax": ymax}
+    return None
 
 if __name__ == "__main__":
     # load image from file
