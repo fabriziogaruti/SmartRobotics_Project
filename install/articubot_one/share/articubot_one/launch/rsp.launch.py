@@ -1,1 +1,0 @@
-/home/fabio/SmartRobotics_Project/bot/launch/rsp.launch.py
