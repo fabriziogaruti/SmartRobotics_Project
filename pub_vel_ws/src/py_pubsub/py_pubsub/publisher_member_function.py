@@ -27,8 +27,10 @@ class MinimalPublisher(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
         self.dict_vel = {
-            0:{'linear_x': 0},
-            1:{'linear_x':0.5}
+            0:{'linear_x': 0, 'angular_z':0},
+            1:{'linear_x':0.5, 'angular_z':0},
+            2:{'linear_x': 0, 'angular_z': 1},
+            3:{'linear_x': 0, 'angular_z': -1}
         }
 
     def timer_callback(self):
@@ -48,6 +50,7 @@ class MinimalPublisher(Node):
             print("Read file", value)
 
         vel.linear.x = float(self.dict_vel[int(value)]['linear_x'])
+        vel.angular.z = float(self.dict_vel[int(value)]['angular_z'])
         print("Publishing velocity" + str(vel.linear.x))
         self.publisher_.publish(vel)
 
