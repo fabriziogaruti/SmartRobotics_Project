@@ -1,0 +1,1 @@
+/home/fabio/SmartRobotics_Project/bot/launch/launch_sim.launch.py
