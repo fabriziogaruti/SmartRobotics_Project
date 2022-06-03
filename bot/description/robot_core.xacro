@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
    <xacro:property name="hokoyu_mass" value="1e-5" />
    <xacro:include filename="inertial_macros.xacro" />
+
    <material name="white">
       <color rgba="1 1 1 1" />
    </material>
@@ -14,8 +17,10 @@
    <material name="black">
       <color rgba="0 0 0 1" />
    </material>
+
    <!-- BASE LINK -->
    <link name="base_link" />
+
    <!-- CHASSIS LINK -->
    <joint name="chassis_joint" type="fixed">
       <parent link="base_link" />
@@ -43,6 +48,7 @@
    <gazebo reference="chassis">
       <material>Gazebo/White</material>
    </gazebo>
+
    <!-- LEFT WHEEL LINK -->
    <joint name="left_wheel_joint" type="continuous">
       <parent link="base_link" />
@@ -69,6 +75,7 @@
    <gazebo reference="left_wheel">
       <material>Gazebo/Blue</material>
    </gazebo>
+
    <!-- RIGHT WHEEL LINK -->
    <joint name="right_wheel_joint" type="continuous">
       <parent link="base_link" />
@@ -95,6 +102,7 @@
    <gazebo reference="right_wheel">
       <material>Gazebo/Blue</material>
    </gazebo>
+   
    <!-- CASTER WHEEL LINK -->
    <joint name="caster_wheel_joint" type="fixed">
       <parent link="chassis" />
@@ -123,4 +131,7 @@
       <mu1 value="0.001" />
       <mu2 value="0.001" />
    </gazebo>
+
+   
+
 </robot>

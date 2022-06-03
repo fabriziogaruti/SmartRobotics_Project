@@ -1,1 +1,1 @@
-/home/davide/Scrivania/Università/Magistrale/smart robotics/project/articubot_one/launch/launch_sim.launch.py
+/home/fabio/SmartRobotics_Project/bot/launch/launch_sim.launch.py

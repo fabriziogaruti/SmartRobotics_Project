@@ -1,1 +1,1 @@
-/home/davide/Scrivania/Università/Magistrale/smart robotics/project/articubot_one/build/articubot_one/ament_cmake_core/articubot_oneConfig-version.cmake
+/home/fabio/SmartRobotics_Project/bot/build/articubot_one/ament_cmake_core/articubot_oneConfig-version.cmake

@@ -1,1 +1,1 @@
-/home/davide/Scrivania/Università/Magistrale/smart robotics/project/articubot_one/launch/rsp.launch.py
+/home/fabio/SmartRobotics_Project/bot/launch/rsp.launch.py
