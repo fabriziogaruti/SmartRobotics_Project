@@ -47,7 +47,7 @@ class MinimalPublisher(Node):
             value = f.read()  # perform file operations
             print("Read file", value)
 
-        vel.linear.x = self.dict_vel[int(value)]['linear_x']
+        vel.linear.x = float(self.dict_vel[int(value)]['linear_x'])
         print("Publishing velocity" + str(vel.linear.x))
         self.publisher_.publish(vel)
 
