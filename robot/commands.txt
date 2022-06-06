@@ -8,6 +8,9 @@ colcon build --symlink-install
 In URDF, a robot is made sup of a series of rigid components called links, and the links are joined together in a parent-child tree structure, where the relationships between different links are called joints.
 
 ros2 run teleop_twist_keyboard teleop_twist_keyboard #keyboard
-ros2 launch articubot_one launch_sim.launch.py #launch ros
+ros2 launch robot launch_sim.launch.py #launch ros
 
 ros2 topic echo /cmd_vel
+
+
+ros2 launch my_bot rsp.launch.py use_sim_time:=true

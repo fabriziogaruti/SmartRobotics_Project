@@ -5,7 +5,7 @@
    <!-- ARM BASE -->
    <joint name="arm_base_joint" type="continuous">
       <axis xyz="0 0 1"/>
-      <parent link="chassis"/>
+      <parent link="base_link"/>
       <child link="arm_base"/>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.18"/>
    </joint> 
@@ -24,7 +24,7 @@
       <visual>
          <origin xyz="0 0 0" rpy="0 0 0" />
          <geometry>
-            <mesh filename="file://$(find robot)/description/meshes/arm_base.stl" />
+            <mesh filename="file://$(find robot)/description/meshes/arm_base.stl"/>
          </geometry>
          <material name="">
             <color rgba="0.79216 0.81961 0.93333 1" />
@@ -33,7 +33,7 @@
       <collision>
          <origin xyz="0 0 0" rpy="0 0 0" />
          <geometry>
-            <mesh filename="file://$(find robot)/description/meshes/arm_base.stl" />
+            <mesh filename="file://$(find robot)/description/meshes/arm_base.stl"/>
          </geometry>
       </collision>
    </link>
