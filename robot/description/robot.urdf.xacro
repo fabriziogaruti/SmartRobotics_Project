@@ -6,4 +6,5 @@
     <!-- <xacro:include filename="gazebo_lidar.xacro" />  -->
     <xacro:include filename="robot_lidar.xacro" />
     <xacro:include filename="robot_arm.xacro" />
+    
 </robot>
