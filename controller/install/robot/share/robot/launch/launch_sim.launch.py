@@ -1,0 +1,1 @@
+/home/lollo/Desktop/projects/SmartRobotics_Project/controller/src/robot/launch/launch_sim.launch.py

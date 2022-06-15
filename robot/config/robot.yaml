@@ -19,7 +19,7 @@ joint_trajectory_controller:
     state_interfaces:  # which states we want to broadcast
       - position
       - velocity
-      - effort
+        # - effort
 
 # arm_controller:
 #   ros__parameters:

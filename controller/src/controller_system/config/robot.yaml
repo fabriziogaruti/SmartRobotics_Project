@@ -1,0 +1,30 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 10  # Hz
+
+    joint_state_broadcaster:  # broadcast the state of the joint
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - arm_base_joint
+    interface_name: position
+    command_interfaces:  # which states the want to command
+      - position
+    state_interfaces:  # which states we want to broadcast
+      - position
+      - velocity
+        #- effort
+
+# arm_controller:
+#   ros__parameters:
+#     type: joint_trajectory_controller/JointTrajectoryController
+#     joints:
+#        - arm_base_joint
+#     write_op_modes:
+#        - arm_base_joint
