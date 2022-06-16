@@ -15,5 +15,4 @@ ros2 topic echo /cmd_vel
 
 ros2 launch my_bot rsp.launch.py use_sim_time:=true
 
-
-ros2 topic pub /joint_states trajectory_msgs/msg/JointTrajectory "{header: {frame_id: base_link}, joint_names: {robot::arm_base}, points: [{positions: {50.0}, velocities: {50}, accelerations: {50}, effort: {50}]}"
+ros2 topic pub /joint_tra trajectory_msgs/msg/JointTrajectory "{header: {frame_id: base_link}, joint_names: {robot::arm_base}, points: [{positions: {50.0}}]}"

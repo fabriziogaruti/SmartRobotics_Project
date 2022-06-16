@@ -1,1 +1,1 @@
-/home/lollo/Desktop/projects/SmartRobotics_Project/robot/launch/rsp.launch.py
+/home/fabio/SmartRobotics_Project/robot/launch/rsp.launch.py

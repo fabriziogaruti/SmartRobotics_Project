@@ -33,8 +33,14 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY config description launch worlds
+  DIRECTORY config description launch worlds scripts
   DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  PROGRAMS scripts/move_arm.py
+  PROGRAMS scripts/move_arm
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 ament_package()
