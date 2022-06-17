@@ -19,6 +19,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from tf2_msgs.msg import TFMessage
+import os
 
 
 class MinimalSubscriber(Node):
@@ -44,7 +45,8 @@ class MinimalSubscriber(Node):
                 angular_index = i
             i+=1
         if min != float("inf"):
-                self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
+            self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
+
 
 class Tf_reader(Node):
 
@@ -62,11 +64,15 @@ class Tf_reader(Node):
         self.get_logger().info('I heard: "%s"' % msg)
 
 
-
 def main(args=None):
     rclpy.init(args=args)
 
     minimal_subscriber = MinimalSubscriber()
+
+    str = os.popen("ros2 topic echo odom --once")
+    out = str.read()
+    print(out)
+
     #tf = Tf_reader()
     #rclpy.spin_once(tf)
     rclpy.spin(minimal_subscriber)
