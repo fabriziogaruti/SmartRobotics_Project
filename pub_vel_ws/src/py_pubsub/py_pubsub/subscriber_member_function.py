@@ -17,6 +17,9 @@ from rclpy.node import Node
 
 from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
+from geometry_msgs.msg import Twist
+from tf2_msgs.msg import TFMessage
+
 
 class MinimalSubscriber(Node):
 
@@ -31,14 +34,41 @@ class MinimalSubscriber(Node):
 
     def listener_callback(self, msg):
         #print("Inside")
-        self.get_logger().info('I heard: "%s"' % msg.ranges)
+        #self.get_logger().info('I heard: "%s"' % msg.ranges)
+        min = float("inf")
+        i=0
+        angular_index = 0
+        for range in msg.ranges:
+            if range < min:
+                min = range
+                angular_index = i
+            i+=1
+        if min != float("inf"):
+                self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
+
+class Tf_reader(Node):
+
+    def __init__(self):
+        super().__init__('tf_reader')
+        self.subscription = self.create_subscription(
+            TFMessage,
+            '/tf_static',
+            self.listener_callback,
+            10)
+        self.subscription  # prevent unused variable warning
+
+    def listener_callback(self, msg):
+        #print("Inside")
+        self.get_logger().info('I heard: "%s"' % msg)
+
 
 
 def main(args=None):
     rclpy.init(args=args)
 
     minimal_subscriber = MinimalSubscriber()
-
+    #tf = Tf_reader()
+    #rclpy.spin_once(tf)
     rclpy.spin(minimal_subscriber)
 
     # Destroy the node explicitly
