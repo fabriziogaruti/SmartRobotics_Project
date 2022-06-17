@@ -15,7 +15,7 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 class SteeringActionClient(Node):
 
     def __init__(self):
-        super().__init__('wheel_steer_actionclient')
+        super().__init__('arm_steer_actionclient')
         self._action_client = ActionClient(
             self, FollowJointTrajectory, '/joint_trajectory_controller/follow_joint_trajectory')
 
@@ -23,15 +23,15 @@ class SteeringActionClient(Node):
         goal_msg = FollowJointTrajectory.Goal()
 
         # Fill in data for trajectory
-        joint_names = ["arm_base_joint"]
+        joint_names = ["arm_base_joint", "shoulder_joint", "top_wrist_joint", "bottom_wrist_joint", "elbow_joint"]
 
         points = []
         point1 = JointTrajectoryPoint()
-        point1.positions = [0.0, 0.0]
+        point1.positions = [0.0, 0.0, 0.0, 0.0, 0.0]
 
         point2 = JointTrajectoryPoint()
         point2.time_from_start = Duration(seconds=1, nanoseconds=0).to_msg()
-        point2.positions = [angle, angle]
+        point2.positions = [angle, angle, angle, angle, angle]
 
         points.append(point1)
         points.append(point2)
@@ -70,14 +70,22 @@ class SteeringActionClient(Node):
 
 def main(args=None):
 
-    rclpy.init()
+    rclpy.init(args=args)
 
     action_client = SteeringActionClient()
 
-    angle = float(sys.argv[1])
+    #TODO setta argomenti in ingresso
+    # angle = float(sys.argv[1])
+    angle = float(0.5)
     future = action_client.send_goal(angle)
 
     rclpy.spin(action_client)
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    # action_client.destroy_node()
+    # rclpy.shutdown()
 
 
 if __name__ == '__main__':

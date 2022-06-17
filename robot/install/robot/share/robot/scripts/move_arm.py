@@ -1,1 +1,0 @@
-/home/fabio/SmartRobotics_Project/robot/scripts/move_arm.py

@@ -13,13 +13,17 @@ joint_trajectory_controller:
   ros__parameters:
     joints:
       - arm_base_joint
+      - shoulder_joint
+      - top_wrist_joint
+      - bottom_wrist_joint
+      - elbow_joint
     interface_name: position
     command_interfaces:  # which states the want to command
       - position
     state_interfaces:  # which states we want to broadcast
       - position
       - velocity
-        # - effort
+      # - effort
 
 # arm_controller:
 #   ros__parameters:

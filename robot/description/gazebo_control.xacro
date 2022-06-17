@@ -33,8 +33,44 @@
         </hardware>
         <joint name="arm_base_joint">
             <command_interface name="position">
-                <param name="min">-1000</param>
-                <param name="max">1000</param>
+                <param name="min">-1</param>
+                <param name="max">1</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="shoulder_joint">
+            <command_interface name="position">
+                <param name="min">-1</param>
+                <param name="max">1</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="top_wrist_joint">
+            <command_interface name="position">
+                <param name="min">-1</param>
+                <param name="max">1</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="bottom_wrist_joint">
+            <command_interface name="position">
+                <param name="min">-1</param>
+                <param name="max">1</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="elbow_joint">
+            <command_interface name="position">
+                <param name="min">-1</param>
+                <param name="max">1</param>
             </command_interface>
             <state_interface name="position"/>
             <state_interface name="velocity"/>

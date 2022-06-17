@@ -1,1 +1,0 @@
-/home/fabio/SmartRobotics_Project/robot/launch/arm_move.launch.py
