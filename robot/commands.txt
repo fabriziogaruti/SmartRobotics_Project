@@ -15,4 +15,7 @@ ros2 topic echo /cmd_vel
 
 ros2 launch my_bot rsp.launch.py use_sim_time:=true
 
-ros2 topic pub /joint_tra trajectory_msgs/msg/JointTrajectory "{header: {frame_id: base_link}, joint_names: {robot::arm_base}, points: [{positions: {50.0}}]}"
+
+# MOVE ARM
+colcon build --packages-select arm_mover
+ros2 run arm_mover mover

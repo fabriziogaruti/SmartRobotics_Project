@@ -39,6 +39,7 @@
    </link>
    <gazebo reference="arm_base">
       <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>   
    </gazebo>
 
    <!-- BICEP -->
@@ -78,6 +79,7 @@
    </link>
    <gazebo reference="bicep">
       <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>   
    </gazebo>
 
    <!-- TOP WRIST -->
@@ -117,6 +119,7 @@
    </link>
    <gazebo reference="top_wrist">
       <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>   
    </gazebo>
 
    <!-- BOTTON WRIST -->
@@ -156,6 +159,7 @@
    </link>
    <gazebo reference="bottom_wrist">
       <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>   
    </gazebo>
 
    <!-- ELBOW -->
@@ -195,6 +199,7 @@
    </link>
    <gazebo reference="elbow">
       <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>   
    </gazebo>
 
    <!-- TRANSMISSIONS -->
