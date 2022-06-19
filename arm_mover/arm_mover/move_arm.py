@@ -16,28 +16,42 @@ class SteeringActionClient(Node):
 
     def __init__(self):
         super().__init__('arm_steer_actionclient')
-        self._action_client = ActionClient(
-            self, FollowJointTrajectory, '/joint_trajectory_controller/follow_joint_trajectory')
+        self._action_client = ActionClient(self, FollowJointTrajectory, '/joint_trajectory_controller/follow_joint_trajectory')
 
-    def send_goal(self, angle):
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ('angles_start', None),
+                ('angles_finish', None)
+            ]
+        )
+
+
+    def send_goal(self):
         goal_msg = FollowJointTrajectory.Goal()
+
+        angles_start = self.get_parameter('angles_start').value
+        angles_finish = self.get_parameter('angles_finish').value
+
+        angles_start = [float(x) for x in angles_start]
+        angles_finish = [float(x) for x in angles_finish]
+        self.get_logger().info(f'Starting Angles: {angles_start}, Finish Angles: {angles_finish}')
 
         # Fill in data for trajectory
         joint_names = ["arm_base_joint", "shoulder_joint", "top_wrist_joint", "bottom_wrist_joint", "elbow_joint"]
 
         points = []
         point1 = JointTrajectoryPoint()
-        point1.positions = [0.0, 0.0, 0.0, 0.0, 0.0]
+        point1.positions = angles_start
 
         point2 = JointTrajectoryPoint()
         point2.time_from_start = Duration(seconds=1, nanoseconds=0).to_msg()
-        point2.positions = [angle, angle, angle, angle, angle]
+        point2.positions = angles_finish
 
         points.append(point1)
         points.append(point2)
 
-        goal_msg.goal_time_tolerance = Duration(
-            seconds=1, nanoseconds=0).to_msg()
+        goal_msg.goal_time_tolerance = Duration(seconds=1, nanoseconds=0).to_msg()
         goal_msg.trajectory.joint_names = joint_names
         goal_msg.trajectory.points = points
 
@@ -69,15 +83,11 @@ class SteeringActionClient(Node):
 
 
 def main(args=None):
-
+    
     rclpy.init(args=args)
 
     action_client = SteeringActionClient()
-
-    #TODO setta argomenti in ingresso
-    # angle = float(sys.argv[1])
-    angle = float(0.5)
-    future = action_client.send_goal(angle)
+    future = action_client.send_goal()
 
     rclpy.spin(action_client)
 
