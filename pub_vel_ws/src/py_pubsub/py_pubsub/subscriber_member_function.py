@@ -20,6 +20,32 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from tf2_msgs.msg import TFMessage
 import os
+import math
+
+import time
+
+
+
+def get_xyz_base(out):
+    idx1 = out.index("sensor_laser")
+    out = out[idx1:]
+    idx2 = out.index("rotation")
+    out = out[:idx2]
+    # print(out, "\n")
+
+    x_str = out.splitlines()[3]
+    idx = x_str.index("x:") + 3
+    x_base = float(x_str[idx:])
+
+    y_str = out.splitlines()[4]
+    idx = y_str.index("y:") + 3
+    y_base = float(y_str[idx:])
+
+    z_str = out.splitlines()[5]
+    idx = z_str.index("z:") + 3
+    z_base = float(z_str[idx:])
+
+    return x_base, y_base, z_base
 
 
 class MinimalSubscriber(Node):
@@ -46,6 +72,20 @@ class MinimalSubscriber(Node):
             i+=1
         if min != float("inf"):
             self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
+
+            # calcolo componenti x,z
+            z_read = min * math.sin(math.radians(angular_index))
+            x_read = min * math.cos(math.radians(angular_index))
+            print("x,z read:", x_read, z_read, "\n")
+
+            str = os.popen("ros2 topic echo tf_static --once")
+            out = str.read()
+            x_base, y_base, z_base = get_xyz_base(out)
+            print("x,y,z base:", x_base, y_base, z_base, "\n")
+
+            pos_point = [x_base+x_read, y_base, z_base+z_read]
+            print("Pos point x,y,z = ", pos_point, "\n")
+            time.sleep(100)
 
 
 class Tf_reader(Node):
