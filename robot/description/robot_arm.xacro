@@ -7,7 +7,7 @@
       <axis xyz="0 0 1"/>
       <parent link="base_link"/>
       <child link="arm_base"/>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.18"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.15"/>
    </joint> 
    <link name="arm_base">
       <inertial>
