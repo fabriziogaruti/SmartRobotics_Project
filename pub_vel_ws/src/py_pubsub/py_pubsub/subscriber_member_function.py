@@ -25,7 +25,6 @@ import math
 import time
 
 
-
 def get_xyz_base(out):
     idx1 = out.index("sensor_laser")
     out = out[idx1:]
@@ -73,19 +72,25 @@ class MinimalSubscriber(Node):
         if min != float("inf"):
             self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
 
-            # calcolo componenti x,z
-            z_read = min * math.sin(math.radians(angular_index))
-            x_read = min * math.cos(math.radians(angular_index))
-            print("x,z read:", x_read, z_read, "\n")
+            if min < 0.5:
+                # calcolo componenti x,z
+                z_read = min * math.sin(math.radians(angular_index))
+                x_read = min * math.cos(math.radians(angular_index))
+                print("x,z read:", x_read, z_read, "\n")
 
-            str = os.popen("ros2 topic echo tf_static --once")
-            out = str.read()
-            x_base, y_base, z_base = get_xyz_base(out)
-            print("x,y,z base:", x_base, y_base, z_base, "\n")
+                str = os.popen("ros2 topic echo tf_static --once")
+                out = str.read()
+                x_base, y_base, z_base = get_xyz_base(out)
+                print("x,y,z base:", x_base, y_base, z_base, "\n")
 
-            pos_point = [x_base+x_read, y_base, z_base+z_read]
-            print("Pos point x,y,z = ", pos_point, "\n")
-            time.sleep(100)
+                pos_point = [x_base+x_read, y_base, z_base+z_read]
+                print("Pos point x,y,z = ", pos_point, "\n")
+                time.sleep(100)
+
+                str = os.popen("ros2 run arm_mover mover --ros-args -p angles_start:=\"[0., 0., 0., 0., 0.]\" -p angles_finish:=\"[0.5, 0.5, 0.5, 0., 0.]\"")
+                out = str.read()
+
+                # exit(0)
 
 
 class Tf_reader(Node):
