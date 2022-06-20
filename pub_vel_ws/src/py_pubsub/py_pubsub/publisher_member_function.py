@@ -23,16 +23,19 @@ class MinimalPublisher(Node):
     def __init__(self):
         super().__init__('minimal_publisher')
         self.publisher_ = self.create_publisher(Twist, '/cmd_vel', 10)
-        timer_period = 1  # seconds
+        timer_period = 0.2  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
         self.dict_vel = {
             0:{'linear_x': 0, 'angular_z':0},
-            1:{'linear_x':0.5, 'angular_z':0},
-            2:{'linear_x': 0, 'angular_z': 0.5},
-            3:{'linear_x': 0, 'angular_z': -0.5},
-            4:{'linear_x': 0, 'angular_z': 0}
+            1:{'linear_x':0.2, 'angular_z':0},
+            2:{'linear_x': 0, 'angular_z': 0.1},
+            3:{'linear_x': 0, 'angular_z': -0.1},
+            4:{'linear_x': 0, 'angular_z': 0},
+            5:{'linear_x': -1, 'angular_z': -1}
         }
+
+        self.slow_down = False
 
     def timer_callback(self):
         #msg = String()
@@ -52,6 +55,10 @@ class MinimalPublisher(Node):
 
         vel.linear.x = float(self.dict_vel[int(value)]['linear_x'])
         vel.angular.z = float(self.dict_vel[int(value)]['angular_z'])
+        if value == 5:
+            self.slow_down = True
+        if self.slow_down:
+            vel.linear.x = vel.linear.x / 2
         print("Publishing velocity" + str(vel.linear.x))
         self.publisher_.publish(vel)
 

@@ -104,6 +104,7 @@ class MinimalSubscriber(Node):
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
+        self.stopped=False
 
     def listener_callback(self, msg):
         #print("Inside")
@@ -120,11 +121,13 @@ class MinimalSubscriber(Node):
             angular_index = (angular_index / 2) - 90
             self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
 
-            if min < 1:
-                with open("file.txt", "w") as f:
-                    f.write(4)  # perform file operations
-                    print("Wrote 4")
+            if min < 3:
+                 with open("file.txt", "w") as f:
+                    f.write('5')  # perform file operations
+                    print("Approaching the object. Slowing down...")
 
+            if min < 1 and self.stopped:
+                time.sleep(2)
                 # calcolo componenti x,z
                 y_read = min * math.sin(math.radians(angular_index))
                 x_read = min * math.cos(math.radians(angular_index))
@@ -154,6 +157,13 @@ class MinimalSubscriber(Node):
                 time.sleep(100)
 
                 # exit(0)
+
+            if min < 1:
+                with open("file.txt", "w") as f:
+                    f.write('4')  # perform file operations
+                    print("Approached the object. Stopping")
+                    self.stopped=True
+            
 
 
 class Tf_reader(Node):
