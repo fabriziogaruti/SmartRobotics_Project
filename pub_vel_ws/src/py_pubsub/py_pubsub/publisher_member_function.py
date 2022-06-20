@@ -30,7 +30,8 @@ class MinimalPublisher(Node):
             0:{'linear_x': 0, 'angular_z':0},
             1:{'linear_x':0.5, 'angular_z':0},
             2:{'linear_x': 0, 'angular_z': 0.5},
-            3:{'linear_x': 0, 'angular_z': -0.5}
+            3:{'linear_x': 0, 'angular_z': -0.5},
+            4:{'linear_x': 0, 'angular_z': 0}
         }
 
     def timer_callback(self):

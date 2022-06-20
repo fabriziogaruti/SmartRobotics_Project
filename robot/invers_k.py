@@ -1,5 +1,3 @@
-
-
 from ikpy.chain import Chain
 from ikpy.link import OriginLink, URDFLink
 import matplotlib.pyplot
