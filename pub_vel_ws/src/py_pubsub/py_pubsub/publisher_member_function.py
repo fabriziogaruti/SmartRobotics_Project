@@ -31,11 +31,8 @@ class MinimalPublisher(Node):
             1:{'linear_x':0.2, 'angular_z':0},
             2:{'linear_x': 0, 'angular_z': 0.1},
             3:{'linear_x': 0, 'angular_z': -0.1},
-            4:{'linear_x': 0, 'angular_z': 0},
-            5:{'linear_x': -1, 'angular_z': -1}
+            4:{'linear_x': 0, 'angular_z': 0}
         }
-
-        self.slow_down = False
 
     def timer_callback(self):
         #msg = String()
@@ -49,16 +46,22 @@ class MinimalPublisher(Node):
             print("Publishing velocity" + str(cmd_vel_array[i]))
             self.publisher_.publish(vel)'''
 
-        with open("file.txt", "r") as f:
+        with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "r") as f:
             value = f.read()  # perform file operations
             print("Read file", value)
 
+        with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file2.txt", "r") as f:
+            value_slow_down = int(f.read())  # perform file operations
+            print("Read file slow down", value_slow_down)
+
+        
         vel.linear.x = float(self.dict_vel[int(value)]['linear_x'])
         vel.angular.z = float(self.dict_vel[int(value)]['angular_z'])
-        if value == 5:
-            self.slow_down = True
-        if self.slow_down:
+
+        if value_slow_down == 1:
+            print("Approached the object. Slowing down")
             vel.linear.x = vel.linear.x / 2
+            
         print("Publishing velocity" + str(vel.linear.x))
         self.publisher_.publish(vel)
 

@@ -105,6 +105,10 @@ class MinimalSubscriber(Node):
             10)
         self.subscription  # prevent unused variable warning
         self.stopped=False
+        self.slowed=False
+
+        with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file2.txt", "w") as f:
+            f.write('0')  # perform file operations
 
     def listener_callback(self, msg):
         #print("Inside")
@@ -121,12 +125,7 @@ class MinimalSubscriber(Node):
             angular_index = (angular_index / 2) - 90
             self.get_logger().info('I heard range: "%f", angle : %d ' % (min, angular_index))
 
-            if min < 3:
-                 with open("file.txt", "w") as f:
-                    f.write('5')  # perform file operations
-                    print("Approaching the object. Slowing down...")
-
-            if min < 1 and self.stopped:
+            if self.stopped:
                 time.sleep(2)
                 # calcolo componenti x,z
                 y_read = min * math.sin(math.radians(angular_index))
@@ -158,11 +157,19 @@ class MinimalSubscriber(Node):
 
                 # exit(0)
 
-            if min < 1:
-                with open("file.txt", "w") as f:
+            if min < 0.6:
+                with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "w") as f:
                     f.write('4')  # perform file operations
                     print("Approached the object. Stopping")
                     self.stopped=True
+
+            elif min < 3 and not self.slowed:
+                 with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file2.txt", "w") as f:
+                    f.write('1')  # perform file operations
+                    print("Approaching the object. Slowing down...")
+                    self.slowed=True
+
+           
             
 
 

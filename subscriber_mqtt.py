@@ -16,16 +16,19 @@ def on_subscribe(client, userdata, mid, granted_qos):
 
 def on_message(client, userdata, msg):
 	msg = msg.payload.decode("utf-8")
-	with open("pub_vel_ws/file.txt", "r") as f:
+	with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "r") as f:
 		value = f.read()
 		if(int(value)==4):
 			return
-	with open("pub_vel_ws/file.txt", "w") as f:
+	with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "w") as f:
 		f.write(msg)
 
 
 
 def main():
+
+	with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "w") as f:
+		f.write('0')
 
 	client = mqtt.Client()
 	#events --> callback association
