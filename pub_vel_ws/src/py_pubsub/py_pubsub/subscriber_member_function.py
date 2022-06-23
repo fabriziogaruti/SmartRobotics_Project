@@ -29,7 +29,7 @@ from ikpy.link import OriginLink, URDFLink
 
 cubo_h = 0.3585
 cilindro_r = 0.1985
-delta_x = 0.048
+delta_x = 0.048 # TODO togli qualcosa
 delta_y = -0.072
 
 
@@ -97,7 +97,8 @@ def ik(target_position):
 
     # arm_chain.plot(arm_chain.inverse_kinematics([2, 2, 2]), ax)
     # matplotlib.pyplot.show()
-    return arm_chain.inverse_kinematics(target_position)
+    return arm_chain.inverse_kinematics(target_position, target_orientation=[0,1,0],  orientation_mode="X")
+    
 
 
 class MinimalSubscriber(Node):
@@ -157,15 +158,20 @@ class MinimalSubscriber(Node):
                 target = ik(pos_point)
                 print(target)
                 target = target[1:]
+                pinch_closure = 0.02
 
-                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[0., 0., 0., 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}]\"")
+                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[0., 0., 0., 0., 0., 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\"")
+                time.sleep(1)
+                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, {pinch_closure}, {pinch_closure}]\"")
+                time.sleep(1)
+                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, {pinch_closure}, {pinch_closure}]\" -p angles_finish:=\"[0., 0., 0., 0., 0., {pinch_closure}, {pinch_closure}]\"")
                                
                 out = str.read()
                 time.sleep(100)
 
                 # exit(0)
 
-            if min < 0.35:
+            if min < 0.4:
                 with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "w") as f:
                     f.write('4')  # perform file operations
                     print("Approached the object. Stopping")

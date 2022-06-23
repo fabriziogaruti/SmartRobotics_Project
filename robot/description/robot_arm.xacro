@@ -202,6 +202,105 @@
       <turnGravityOff>true</turnGravityOff>   
    </gazebo>
 
+   <!-- PLIER BASE -->
+   <joint name="plier_base_joint" type="fixed">
+      <parent link="top_wrist"/>
+      <child link="plier_base"/>
+      <origin rpy="-${pi/2} -${pi/2} -${pi/2}" xyz="0 0 0.14"/>
+   </joint>
+   <link name="plier_base">
+      <visual>
+         <origin xyz="0 0 0" />
+         <geometry>
+            <box size="0.02 0.15 0.20" />
+         </geometry>
+         <material name="">
+            <color rgba="0.79216 0.81961 0.93333 1" />
+         </material>
+      </visual>
+      <collision>
+         <origin xyz="0 0 0" />
+         <geometry>
+            <box size="0.02 0.15 0.30" />
+         </geometry>
+      </collision>
+      <xacro:inertial_box mass="0.5" x="0.02" y="0.15" z="0.20">
+         <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:inertial_box>
+   </link>
+   <gazebo reference="plier_base">
+      <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>  
+   </gazebo>
+
+   <!-- PLIER RIGHT -->
+   <joint name="plier_right_joint" type="prismatic">
+      <limit effort="1000.0" lower="0" upper="0.2" velocity="0.5"/>
+      <axis xyz="1 0 0"/>
+      <parent link="plier_base"/>
+      <child link="plier_right"/>
+      <origin rpy="-${pi/2} -${pi/2} -${pi/2} " xyz="0.085 0 -0.088"/>
+   </joint>
+   <link name="plier_right">
+      <visual>
+         <origin xyz="0 0 0" />
+         <geometry>
+            <box size="0.02 0.15 0.15" />
+         </geometry>
+         <material name="">
+            <color rgba="0.79216 0.81961 0.93333 1" />
+         </material>
+      </visual>
+      <collision>
+         <origin xyz="0 0 0" />
+         <geometry>
+            <box size="0.02 0.15 0.15" />
+         </geometry>
+      </collision>
+      <xacro:inertial_box mass="0.5" x="0.02" y="0.15" z="0.15">
+         <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:inertial_box>
+   </link>
+   <gazebo reference="plier_right">
+      <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>  
+   </gazebo>
+
+   <!-- PLIER LEFT -->
+   <joint name="plier_left_joint" type="prismatic">
+      <limit effort="1000.0" lower="0" upper="0.2" velocity="0.5"/>
+      <axis xyz="-1 0 0"/>
+      <parent link="plier_base"/>
+      <child link="plier_left"/>
+      <origin rpy="-${pi/2} -${pi/2} -${pi/2} " xyz="0.085 0 0.088"/>
+   </joint>
+   <link name="plier_left">
+      <visual>
+         <origin xyz="0 0 0" />
+         <geometry>
+            <box size="0.02 0.15 0.15" />
+         </geometry>
+         <material name="">
+            <color rgba="0.79216 0.81961 0.93333 1" />
+         </material>
+      </visual>
+      <collision>
+         <origin xyz="0 0 0" />
+         <geometry>
+            <box size="0.02 0.15 0.15" />
+         </geometry>
+      </collision>
+      <xacro:inertial_box mass="0.5" x="0.02" y="0.15" z="0.15">
+         <origin xyz="0 0 0" rpy="0 0 0" />
+      </xacro:inertial_box>
+   </link>
+   <gazebo reference="plier_left">
+      <material>Gazebo/White</material>
+      <turnGravityOff>true</turnGravityOff>  
+   </gazebo>
+
+
+
 
    <!-- TRANSMISSIONS -->
   <transmission name="arm_base_trans" type="SimpleTransmission">

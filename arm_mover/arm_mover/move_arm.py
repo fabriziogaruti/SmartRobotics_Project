@@ -38,7 +38,7 @@ class SteeringActionClient(Node):
         self.get_logger().info(f'Starting Angles: {angles_start}, Finish Angles: {angles_finish}')
 
         # Fill in data for trajectory
-        joint_names = ["arm_base_joint", "shoulder_joint", "bottom_wrist_joint", "elbow_joint", "top_wrist_joint"]
+        joint_names = ["arm_base_joint", "shoulder_joint", "bottom_wrist_joint", "elbow_joint", "top_wrist_joint", "plier_right_joint", "plier_left_joint"]
 
         points = []
         point1 = JointTrajectoryPoint()

@@ -17,6 +17,8 @@ joint_trajectory_controller:
       - top_wrist_joint
       - bottom_wrist_joint
       - elbow_joint
+      - plier_right_joint
+      - plier_left_joint
     interface_name: position
     command_interfaces:  # which states the want to command
       - position
