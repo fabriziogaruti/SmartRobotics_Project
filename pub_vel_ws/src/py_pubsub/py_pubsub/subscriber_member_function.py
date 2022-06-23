@@ -30,7 +30,7 @@ from ikpy.link import OriginLink, URDFLink
 cubo_h = 0.3585
 cilindro_r = 0.1985
 delta_x = 0.048
-delta_y = 0.03072
+delta_y = -0.072
 
 
 def get_xyz_base(out):
@@ -88,7 +88,7 @@ def ik(target_position):
       name="top_wrist_joint",
       origin_translation=[0.0, 0, 0.20994],
       origin_orientation=[0, 0, 0],
-      rotation=[0, 1, 0],
+      rotation=[0, 1, 0]
     )
     
     ], active_links_mask=[False,True,True,True,True,True])
@@ -145,8 +145,7 @@ class MinimalSubscriber(Node):
                     str = os.popen("ros2 topic echo tf_static 2>/dev/null | head -n 64")
                     out = str.read()
                 except BrokenPipeError:
-                    print('boh')
-                        
+                        print("broken pipe")
                 # print(out)
 
                 x_base, y_base, z_base = get_xyz_base(out)
@@ -166,7 +165,7 @@ class MinimalSubscriber(Node):
 
                 # exit(0)
 
-            if min < 0.6:
+            if min < 0.35:
                 with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "w") as f:
                     f.write('4')  # perform file operations
                     print("Approached the object. Stopping")

@@ -1,4 +1,5 @@
 source robot/install/setup.bash
+source arm_mover/install/setup.bash
 source pub_vel_ws/install/setup.bash
 
 ros2 launch robot launch_sim.launch.py
