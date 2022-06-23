@@ -27,6 +27,11 @@ import time
 from ikpy.chain import Chain
 from ikpy.link import OriginLink, URDFLink
 
+cubo_h = 0.3585
+cilindro_r = 0.1985
+delta_x = 0.048
+delta_y = 0.03072
+
 
 def get_xyz_base(out):
     idx1 = out.index("sensor_laser")
@@ -48,6 +53,7 @@ def get_xyz_base(out):
     z_base = float(z_str[idx:])
 
     return x_base, y_base, z_base
+
 
 def ik(target_position):
     arm_chain = Chain(name='left_arm', links=[
@@ -128,8 +134,11 @@ class MinimalSubscriber(Node):
             if self.stopped:
                 time.sleep(2)
                 # calcolo componenti x,z
-                y_read = min * math.sin(math.radians(angular_index))
-                x_read = min * math.cos(math.radians(angular_index))
+                y_read = (min+cilindro_r) * math.sin(math.radians(angular_index))
+                x_read = (min+cilindro_r) * math.cos(math.radians(angular_index))
+                x_read += delta_x
+                y_read += delta_y
+
                 print("x,y read:", x_read, y_read, "\n")
 
                 try:
@@ -143,7 +152,7 @@ class MinimalSubscriber(Node):
                 x_base, y_base, z_base = get_xyz_base(out)
                 print("x,y,z base:", x_base, y_base, z_base, "\n")
 
-                pos_point = [x_base+x_read, y_base+y_read, z_base+0.5]
+                pos_point = [x_base+x_read, y_base+y_read, cubo_h]
                 print("Pos point x,y,z = ", pos_point, "\n")
                 
                 target = ik(pos_point)
