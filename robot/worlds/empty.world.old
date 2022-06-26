@@ -158,10 +158,10 @@
         </link>
       </model>
       <model name='unit_box'>
-        <pose>5.63935 5.98971 0.358525 5.9e-05 2.8e-05 -7e-06</pose>
+        <pose>5.68798 5.91792 0.358525 5.9e-05 2.8e-05 -7e-06</pose>
         <scale>0.098008 0.10284 0.086683</scale>
         <link name='link'>
-          <pose>5.63935 5.98971 0.358525 5.9e-05 2.8e-05 -7e-06</pose>
+          <pose>5.68798 5.91792 0.358525 5.9e-05 2.8e-05 -7e-06</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>

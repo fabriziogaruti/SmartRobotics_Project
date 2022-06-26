@@ -28,8 +28,8 @@ from ikpy.chain import Chain
 from ikpy.link import OriginLink, URDFLink
 
 cubo_h = 0.3585
-cilindro_r = 0.1985
-delta_x = 0.048 # TODO togli qualcosa
+cilindro_r = 0.19858488299
+delta_x = 0.048 
 delta_y = -0.072
 
 
@@ -89,15 +89,21 @@ def ik(target_position):
       origin_translation=[0.0, 0, 0.20994],
       origin_orientation=[0, 0, 0],
       rotation=[0, 1, 0]
+    ),
+    URDFLink(
+      name="plier_base_joint",
+      origin_translation=[0.0, 0, 0.24],
+      origin_orientation=[-1.5708, -1.5708, -1.5708],
+      rotation=[0, 0, 0]
     )
     
-    ], active_links_mask=[False,True,True,True,True,True])
+    ], active_links_mask=[False,True,True,True,True,True,False])
     # target_position = [ 0.5, -0.4, 0.20]
     # ax = matplotlib.pyplot.figure().add_subplot(111, projection='3d')
 
     # arm_chain.plot(arm_chain.inverse_kinematics([2, 2, 2]), ax)
     # matplotlib.pyplot.show()
-    return arm_chain.inverse_kinematics(target_position, target_orientation=[0,1,0],  orientation_mode="X")
+    return arm_chain.inverse_kinematics(target_position, target_orientation=[0,0,-1],  orientation_mode="X")
     
 
 
@@ -137,8 +143,8 @@ class MinimalSubscriber(Node):
                 # calcolo componenti x,z
                 y_read = (min+cilindro_r) * math.sin(math.radians(angular_index))
                 x_read = (min+cilindro_r) * math.cos(math.radians(angular_index))
-                x_read += delta_x
-                y_read += delta_y
+                # x_read += delta_x
+                # y_read += delta_y
 
                 print("x,y read:", x_read, y_read, "\n")
 
@@ -158,20 +164,23 @@ class MinimalSubscriber(Node):
                 target = ik(pos_point)
                 print(target)
                 target = target[1:]
-                pinch_closure = 0.02
+                pinch_closure = 0.025
 
-                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[0., 0., 0., 0., 0., 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\"")
-                time.sleep(1)
-                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, {pinch_closure}, {pinch_closure}]\"")
-                time.sleep(1)
-                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, {pinch_closure}, {pinch_closure}]\" -p angles_finish:=\"[0., 0., 0., 0., 0., {pinch_closure}, {pinch_closure}]\"")
+                first_movement_duration=5
+                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[0., 0., 0., 0., 0., 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\" -p seconds:={first_movement_duration}")
+                time.sleep(2.5)
+                second_movement_duration=5
+                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, {pinch_closure}, {pinch_closure}]\" -p seconds:={second_movement_duration}")
+                time.sleep(2.5)
+                third_movement_duration=5
+                str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, {pinch_closure}, {pinch_closure}]\" -p angles_finish:=\"[0., 0., 0., 0., 0., {pinch_closure}, {pinch_closure}]\" -p seconds:={third_movement_duration}")
                                
                 out = str.read()
                 time.sleep(100)
 
                 # exit(0)
 
-            if min < 0.4:
+            if min < 0.25:
                 with open("/home/fabio/SmartRobotics_Project/pub_vel_ws/file.txt", "w") as f:
                     f.write('4')  # perform file operations
                     print("Approached the object. Stopping")

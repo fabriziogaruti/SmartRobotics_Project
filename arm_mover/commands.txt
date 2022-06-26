@@ -1,3 +1,8 @@
 colcon build --packages-select arm_mover 
 source install/setup.bash
-ros2 run arm_mover mover --ros-args -p angles_start:="[0.5, 0.5, 0.5, 0.5, 0.5]" -p angles_finish:="[-1.57, 1.07, 2.04, 0., 0.]"
+
+ros2 run arm_mover mover --ros-args -p angles_start:="[0., 0., 0., 0., 0., 0., 0.]" -p angles_finish:="[-1.49, 1.16, 0., 0., 1.96, 0., 0.]" -p seconds:=5
+ros2 run arm_mover mover --ros-args -p angles_start:="[-1.49, 1.16, 0., 0., 1.96, 0., 0.]" -p angles_finish:="[-1.49, 1.16, 0., 0., 1.96, 0.025, 0.025]" -p seconds:=5
+ros2 run arm_mover mover --ros-args -p angles_start:="[-1.49, 1.16, 0., 0., 1.96, 0.025, 0.025]" -p angles_finish:="[ 0., 0., 0., 0., 1.96, 0.025, 0.025]" -p seconds:=5
+
+

@@ -22,7 +22,8 @@ class SteeringActionClient(Node):
             namespace='',
             parameters=[
                 ('angles_start', None),
-                ('angles_finish', None)
+                ('angles_finish', None),
+                ('seconds', 1)
             ]
         )
 
@@ -32,6 +33,7 @@ class SteeringActionClient(Node):
 
         angles_start = self.get_parameter('angles_start').value
         angles_finish = self.get_parameter('angles_finish').value
+        seconds = float(self.get_parameter('seconds').value)
 
         angles_start = [float(x) for x in angles_start]
         angles_finish = [float(x) for x in angles_finish]
@@ -45,13 +47,13 @@ class SteeringActionClient(Node):
         point1.positions = angles_start
 
         point2 = JointTrajectoryPoint()
-        point2.time_from_start = Duration(seconds=1, nanoseconds=0).to_msg()
+        point2.time_from_start = Duration(seconds=seconds, nanoseconds=0).to_msg()
         point2.positions = angles_finish
 
         points.append(point1)
         points.append(point2)
 
-        goal_msg.goal_time_tolerance = Duration(seconds=1, nanoseconds=0).to_msg()
+        goal_msg.goal_time_tolerance = Duration(seconds=seconds, nanoseconds=0).to_msg()
         goal_msg.trajectory.joint_names = joint_names
         goal_msg.trajectory.points = points
 

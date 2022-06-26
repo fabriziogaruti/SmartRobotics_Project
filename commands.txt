@@ -1,3 +1,7 @@
+cd robot
+colcon build --symlink-install
+source install/setup.bash
+
 source robot/install/setup.bash
 source arm_mover/install/setup.bash
 source pub_vel_ws/install/setup.bash
