@@ -54,6 +54,19 @@ def get_xyz_base(out):
 
     return x_base, y_base, z_base
 
+def get_z_rotation(out):
+    idx1 = out.index("base_link")
+    out = out[idx1:]
+    idx2 = out.index("covariance")
+    out = out[:idx2]
+    # print(out, "\n")
+
+    z_str = out.splitlines()[10]
+    idx = z_str.index("z:") + 3
+    z_rotation = float(z_str[idx:])
+
+    return z_rotation
+
 
 def ik(target_position):
     arm_chain = Chain(name='left_arm', links=[
@@ -92,7 +105,7 @@ def ik(target_position):
     ),
     URDFLink(
       name="plier_base_joint",
-      origin_translation=[0.0, 0, 0.24],
+      origin_translation=[0.0, 0, 0.22],
       origin_orientation=[-1.5708, -1.5708, -1.5708],
       rotation=[0, 0, 0]
     )
@@ -126,6 +139,7 @@ class MinimalSubscriber(Node):
     def listener_callback(self, msg):
         #print("Inside")
         #self.get_logger().info('I heard: "%s"' % msg.ranges)
+
         min = float("inf")
         i=0
         angular_index = 0
@@ -159,12 +173,25 @@ class MinimalSubscriber(Node):
                 print("x,y,z base:", x_base, y_base, z_base, "\n")
 
                 pos_point = [x_base+x_read, y_base+y_read, cubo_h]
-                print("Pos point x,y,z = ", pos_point, "\n")
+                print("Pos table centre x,y,z = ", pos_point, "\n")
+
+                try:
+                    str = os.popen("ros2 topic echo odom 2>/dev/null | head -n 64")
+                    out = str.read()
+                except BrokenPipeError:
+                    print("broken pipe")
+                z_rotation = get_z_rotation(out)
+
+                x = math.cos(z_rotation) * delta_x + math.sin(z_rotation) * delta_y + pos_point[0]
+                y = -math.sin(z_rotation) * delta_x + math.cos(z_rotation) * delta_y + pos_point[1]
+
+                pos_point = [x, y, cubo_h]
+                print("Pos target x,y,z = ", pos_point, "\n")
                 
                 target = ik(pos_point)
                 print(target)
                 target = target[1:]
-                pinch_closure = 0.025
+                pinch_closure = 0.022
 
                 first_movement_duration=5
                 str = os.popen(f"ros2 run arm_mover mover --ros-args -p angles_start:=\"[0., 0., 0., 0., 0., 0., 0.]\" -p angles_finish:=\"[{target[0]}, {target[1]}, {target[2]}, {target[3]}, {target[4]}, 0., 0.]\" -p seconds:={first_movement_duration}")
